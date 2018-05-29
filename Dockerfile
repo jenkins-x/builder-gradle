@@ -1,4 +1,4 @@
-FROM jenkinsxio/builder-base:0.0.284
+FROM jenkinsxio/builder-base:0.0.285
 
 CMD ["gradle"]
 
