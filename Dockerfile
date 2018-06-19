@@ -19,6 +19,17 @@ RUN set -o errexit -o nounset \
 	&& mkdir -p /opt \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln -s "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
+
+ENV ANDROID_VERSION 4333796
+ENV ANDROID_HOME /opt/android-sdk-linux
+RUN wget https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_VERSION}.zip && \
+  unzip sdk-tools-linux-${ANDROID_VERSION}.zip -d android-sdk-linux && mv android-sdk-linux /opt/
+ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+RUN yes | sdkmanager --licenses
+RUN sdkmanager "platform-tools"
+RUN yes | sdkmanager \
+    "platforms;android-28" \
+    "build-tools;28.0.0"
 	
 #	&& echo "Adding gradle user and group" \
 #	&& addgroup -S -g 1000 gradle \
